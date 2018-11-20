@@ -19,6 +19,7 @@ import kotlinx.coroutines.launch
 class ToursViewModel : ViewModel(), ApiExceptions {
     private val viewModelJob = Job()
     private val uiScope = CoroutineScope(Dispatchers.Main + viewModelJob)
+    val hotelsData = MutableLiveData<List<Hotel>>()
 
     private lateinit var companyRepository: CompanyRepository
     private lateinit var flightRepository: FlightRepository
@@ -47,6 +48,7 @@ class ToursViewModel : ViewModel(), ApiExceptions {
                 val flights = flightRepository.getFlights()
                 val hotels = hotelRepository.getHotels()
                 handleResults(companies, flights, hotels)
+                hotelsData.value = hotels
             } catch (e: Exception) {
                 handleException(e)
             }

@@ -1,5 +1,6 @@
 package com.tour.serp.ui.tour
 
+import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.databinding.DataBindingUtil
 import android.os.Bundle
@@ -17,17 +18,21 @@ import com.tour.serp.databinding.FragmentToursBinding
 class ToursFragment : Fragment() {
     private val viewModel: ToursViewModel
         get() = ViewModelProviders.of(this)[ToursViewModel::class.java]
+    private var hotelAdapter = HotelAdapter()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val binding = DataBindingUtil.inflate<FragmentToursBinding>(inflater, R.layout.fragment_tours, container, false)
 
         initViewModel()
 
+        binding.hotelList.adapter = hotelAdapter
+
         return binding.root
     }
 
     private fun initViewModel() {
         viewModel.init(CompanyRepository(), FlightRepository(), HotelRepository())
+        viewModel.hotelsData.observe(this, Observer { it?.let { hotels -> hotelAdapter.addHotels(hotels) } })
     }
 
     companion object {
