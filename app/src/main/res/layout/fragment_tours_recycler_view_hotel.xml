@@ -2,15 +2,15 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
         xmlns:app="http://schemas.android.com/apk/res-auto">
-
     <data>
+        <import type="android.view.View"/>
         <variable name="hotel" type="com.tour.serp.data.network.model.Hotel"/>
     </data>
 
     <android.support.v7.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/large_padding">
+            android:layout_margin="@dimen/middle_padding">
 
         <android.support.constraint.ConstraintLayout
                 android:padding="@dimen/middle_padding"
@@ -19,7 +19,7 @@
 
             <TextView
                     android:id="@+id/tour_title"
-                    android:text="@{hotel.name}"
+                    android:text="@{@string/hotels_name(hotel.name)}"
                     android:layout_height="wrap_content"
                     android:layout_width="wrap_content"
                     style="@style/AppTheme.TextView.Name"
@@ -29,7 +29,7 @@
                     android:id="@+id/tour_count"
                     android:layout_height="wrap_content"
                     android:layout_width="wrap_content"
-                    android:text="@{``+hotel.flightsObject.size()}"
+                    android:text="@{hotel.flightsObject.size + ` ` + @plurals/flight_count(hotel.flightsObject.size)}"
                     style="@style/AppTheme.TextView.HotelCount"
                     android:paddingTop="@dimen/middle_padding"
                     app:layout_constraintTop_toBottomOf="@id/tour_title"
@@ -42,6 +42,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"
                     android:paddingEnd="@dimen/small_padding"
+                    android:visibility="@{hotel.flightsObject.size==1?View.GONE:View.VISIBLE}"
                     android:paddingRight="@dimen/small_padding"
                     app:layout_constraintEnd_toStartOf="@id/tour_price"
                     android:text="@string/from"/>
@@ -51,6 +52,7 @@
                     android:layout_height="wrap_content"
                     android:layout_width="wrap_content"
                     style="@style/AppTheme.TextView.Price"
+                    android:text="@{``+(hotel.flightsObject[0].price+hotel.price)}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"
                     tools:text="@tools:sample/full_names"/>
