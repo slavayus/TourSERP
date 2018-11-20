@@ -1,6 +1,7 @@
 package com.tour.serp.ui.tour
 
 import android.arch.lifecycle.ViewModel
+import com.tour.serp.data.network.ApiExceptions
 import com.tour.serp.data.network.repository.CompanyRepository
 import com.tour.serp.data.network.repository.FlightRepository
 import com.tour.serp.data.network.repository.HotelRepository
@@ -10,7 +11,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 
-class ToursViewModel : ViewModel() {
+class ToursViewModel : ViewModel(), ApiExceptions {
     private val viewModelJob = Job()
     private val uiScope = CoroutineScope(Dispatchers.Main + viewModelJob)
 
@@ -44,6 +45,7 @@ class ToursViewModel : ViewModel() {
                 debug(ToursViewModel::class, flights)
                 debug(ToursViewModel::class, hotels)
             } catch (e: Exception) {
+                handleException(e)
             }
         }
     }

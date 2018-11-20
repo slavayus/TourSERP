@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">TourSERP</string>
+    <string name="error_check_internet_connection">Please, check internet connection</string>
+    <string name="error_unknown_http_error">There were difficulties in fulfilling the request :(</string>
 </resources>

@@ -1,6 +1,7 @@
 package com.tour.serp
 
 import android.app.Application
+import android.content.Context
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import com.tour.serp.data.network.ApiEndPoint
 import okhttp3.OkHttpClient
@@ -14,6 +15,7 @@ class App : Application() {
 
     override fun onCreate() {
         super.onCreate()
+        context = applicationContext
         api = initRetrofit().create(ApiEndPoint::class.java)
     }
 
@@ -39,5 +41,6 @@ class App : Application() {
 
     companion object {
         lateinit var api: ApiEndPoint
+        lateinit var context: Context
     }
 }
