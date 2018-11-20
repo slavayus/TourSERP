@@ -38,10 +38,10 @@ class ToursViewModel : ViewModel() {
         uiScope.launch {
             try {
                 val companies = companyRepository.getCompanies()
-                val flight = flightRepository.getFlight()
+                val flights = flightRepository.getFlights()
                 val hotels = hotelRepository.getHotels()
                 debug(ToursViewModel::class, companies)
-                debug(ToursViewModel::class, flight)
+                debug(ToursViewModel::class, flights)
                 debug(ToursViewModel::class, hotels)
             } catch (e: Exception) {
             }

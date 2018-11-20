@@ -4,7 +4,7 @@ import com.tour.serp.App
 import com.tour.serp.data.network.model.Flight
 
 class FlightRepository {
-    suspend fun getFlight(): List<Flight> {
+    suspend fun getFlights(): List<Flight> {
         return App.api.getFlights().await().flights
     }
 }
