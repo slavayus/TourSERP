@@ -11,6 +11,7 @@ import android.view.ViewGroup
 import com.tour.serp.R
 import com.tour.serp.data.network.repository.CompanyRepository
 import com.tour.serp.data.network.repository.FlightRepository
+import com.tour.serp.data.network.repository.HotelRepository
 import com.tour.serp.databinding.FragmentToursBinding
 
 class ToursFragment : Fragment() {
@@ -26,7 +27,7 @@ class ToursFragment : Fragment() {
     }
 
     private fun initViewModel() {
-        viewModel.init(CompanyRepository(), FlightRepository())
+        viewModel.init(CompanyRepository(), FlightRepository(), HotelRepository())
     }
 
     companion object {
