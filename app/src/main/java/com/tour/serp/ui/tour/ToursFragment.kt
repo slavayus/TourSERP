@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v7.app.AlertDialog
+import android.support.v7.util.DiffUtil
 import android.support.v7.widget.SearchView
 import android.view.LayoutInflater
 import android.view.View
@@ -20,6 +21,9 @@ import com.tour.serp.data.network.repository.FlightRepository
 import com.tour.serp.data.network.repository.HotelRepository
 import com.tour.serp.databinding.FragmentToursBinding
 import com.tour.serp.databinding.FragmentToursDialogBinding
+import com.tour.serp.ui.tour.adapter.FlightAdapter
+import com.tour.serp.ui.tour.adapter.HotelAdapter
+import com.tour.serp.ui.tour.adapter.diff.FlightsDiffUtil
 
 
 class ToursFragment : Fragment(), HotelAdapter.HotelAdapterInteraction {
@@ -51,7 +55,14 @@ class ToursFragment : Fragment(), HotelAdapter.HotelAdapterInteraction {
 
     private fun initViewModel() {
         viewModel.init(CompanyRepository(), FlightRepository(), HotelRepository())
-        viewModel.hotelsData.observe(this, Observer { it?.let { hotels -> hotelAdapter.setHotels(hotels) } })
+        viewModel.hotelsData.observe(this, Observer { it?.let { hotels -> updateHotels(hotels) } })
+    }
+
+    private fun updateHotels(hotels: List<Hotel>) {
+        val flightsDiffUtil = FlightsDiffUtil(hotelAdapter.data, hotels)
+        val productDiffResult = DiffUtil.calculateDiff(flightsDiffUtil)
+        hotelAdapter.setHotels(hotels)
+        productDiffResult.dispatchUpdatesTo(hotelAdapter)
     }
 
     override fun onClickHotel(hotel: Hotel) {

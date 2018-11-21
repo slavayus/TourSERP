@@ -1,4 +1,4 @@
-package com.tour.serp.ui.tour
+package com.tour.serp.ui.tour.adapter
 
 import android.databinding.DataBindingUtil
 import android.support.v7.widget.RecyclerView

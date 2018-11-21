@@ -1,4 +1,4 @@
-package com.tour.serp.ui.tour
+package com.tour.serp.ui.tour.adapter
 
 import android.databinding.DataBindingUtil
 import android.support.v7.widget.RecyclerView
@@ -9,7 +9,7 @@ import com.tour.serp.data.network.model.Hotel
 import com.tour.serp.databinding.FragmentToursRecyclerViewHotelBinding
 
 class HotelAdapter(val interaction: HotelAdapterInteraction) : RecyclerView.Adapter<HotelAdapter.HotelHolder>() {
-    private var data: List<Hotel> = ArrayList()
+    var data: List<Hotel> = ArrayList()
 
     interface HotelAdapterInteraction {
         fun onClickHotel(hotel: Hotel)
@@ -30,11 +30,7 @@ class HotelAdapter(val interaction: HotelAdapterInteraction) : RecyclerView.Adap
     override fun onBindViewHolder(holder: HotelHolder, position: Int) = holder.bind(data[position])
 
     fun setHotels(hotels: List<Hotel>) {
-//        val oldSize = data.size
-//        this.data.addAll(hotels)
-//        notifyItemRangeInserted(oldSize, data.size)
         this.data = hotels
-        notifyDataSetChanged()
     }
 
     inner class HotelHolder(var binding: FragmentToursRecyclerViewHotelBinding) :
