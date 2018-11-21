@@ -16,9 +16,8 @@ class HotelAdapter(val interaction: HotelAdapterInteraction) : RecyclerView.Adap
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HotelHolder {
-        val inflater = LayoutInflater.from(parent.context)
         val binding = DataBindingUtil.inflate<FragmentToursRecyclerViewHotelBinding>(
-            inflater,
+            LayoutInflater.from(parent.context),
             R.layout.fragment_tours_recycler_view_hotel,
             parent,
             false

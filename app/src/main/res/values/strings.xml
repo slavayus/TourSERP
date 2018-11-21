@@ -4,6 +4,7 @@
     <string name="error_unknown_http_error">There were difficulties in fulfilling the request :(</string>
     <string name="from">от</string>
     <string name="hotels_name">Отель \"%s\"</string>
+    <string name="apply">Применить</string>
 
     <plurals name="flight_count">
         <item quantity="one">вариант перелета</item>

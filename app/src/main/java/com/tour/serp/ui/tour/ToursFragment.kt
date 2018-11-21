@@ -6,15 +6,19 @@ import android.databinding.DataBindingUtil
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
+import android.support.v7.app.AlertDialog
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import com.tour.serp.R
+import com.tour.serp.data.network.model.Flight
 import com.tour.serp.data.network.model.Hotel
 import com.tour.serp.data.network.repository.CompanyRepository
 import com.tour.serp.data.network.repository.FlightRepository
 import com.tour.serp.data.network.repository.HotelRepository
 import com.tour.serp.databinding.FragmentToursBinding
+import com.tour.serp.databinding.FragmentToursDialogBinding
 
 
 class ToursFragment : Fragment(), HotelAdapter.HotelAdapterInteraction {
@@ -35,13 +39,32 @@ class ToursFragment : Fragment(), HotelAdapter.HotelAdapterInteraction {
     private fun initViewModel() {
         viewModel.init(CompanyRepository(), FlightRepository(), HotelRepository())
         viewModel.hotelsData.observe(this, Observer { it?.let { hotels -> hotelAdapter.addHotels(hotels) } })
-        viewModel.flightsData.observe(this, Observer { it?.let { flights -> showAlertDialog(flights) } })
     }
 
-    private fun showAlertDialog(flights: ArrayList<String>) {
+    override fun onClickHotel(hotel: Hotel) {
+        showAlertDialog(hotel.flightsObject)
+    }
+
+    private fun showAlertDialog(flights: List<Flight>) {
         if (context == null) {
             return
         }
+        val view = DataBindingUtil.inflate<FragmentToursDialogBinding>(
+            LayoutInflater.from(context!!),
+            R.layout.fragment_tours_dialog,
+            null,
+            false
+        )
+        view.toursList.adapter = TourAdapter(flights)
+        AlertDialog.Builder(context!!)
+            .setView(
+                view.root
+            )
+            .setPositiveButton(R.string.apply) { dialog, which ->
+                Toast.makeText(context, flights[which].companyObject?.name, Toast.LENGTH_SHORT).show()
+            }
+            .create()
+            .show()
     }
 
     companion object {
@@ -54,10 +77,6 @@ class ToursFragment : Fragment(), HotelAdapter.HotelAdapterInteraction {
                 .commit()
         }
 
-    }
-
-    override fun onClickHotel(hotel: Hotel) {
-        viewModel.onClickHotel(hotel)
     }
 
 }
