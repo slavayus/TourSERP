@@ -55,14 +55,14 @@ class ToursFragment : Fragment(), HotelAdapter.HotelAdapterInteraction {
             null,
             false
         )
-        val tourAdapter = TourAdapter(flights)
+        val tourAdapter = FlightAdapter(flights)
         view.toursList.adapter = tourAdapter
         AlertDialog.Builder(context!!)
             .setView(
                 view.root
             )
             .setPositiveButton(R.string.apply) { dialog, which ->
-                Toast.makeText(context, tourAdapter.getSelectedTour()?.companyObject?.name, Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, tourAdapter.getSelectedFlight()?.companyObject?.name, Toast.LENGTH_SHORT).show()
             }
             .create()
             .show()
