@@ -61,7 +61,7 @@ class ToursViewModel : ViewModel(), ApiExceptions {
     }
 
     private fun combineFlightsWithCompanies(companies: List<Company>, flights: List<Flight>) {
-        flights.forEach { it.companyObject = companies.getById(it.id) }
+        flights.forEach { it.companyObject = companies.getById(it.companyId) }
     }
 
     private fun combineFlightsWithHotels(flights: List<Flight>, hotels: List<Hotel>) {
