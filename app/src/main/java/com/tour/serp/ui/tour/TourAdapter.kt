@@ -10,6 +10,8 @@ import com.tour.serp.databinding.FragmentToursDialogRecyclerViewTourItemBinding
 import com.tour.serp.utils.debug
 
 class TourAdapter(val data: List<Flight>) : RecyclerView.Adapter<TourAdapter.TourHolder>() {
+    private var lastClicked: Int = -1
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TourHolder {
         val binding = DataBindingUtil.inflate<FragmentToursDialogRecyclerViewTourItemBinding>(
             LayoutInflater.from(parent.context),
@@ -29,7 +31,20 @@ class TourAdapter(val data: List<Flight>) : RecyclerView.Adapter<TourAdapter.Tou
         fun bind(flight: Flight) {
             debug(TourHolder::class, flight)
             binding.flight = flight
+            binding.tourName.isChecked = lastClicked == layoutPosition
+            binding.tourName.setOnClickListener {
+                clickHandler()
+            }
+            itemView.setOnClickListener {
+                clickHandler()
+            }
         }
 
+        private fun clickHandler() {
+            val temp = lastClicked
+            lastClicked = layoutPosition
+            notifyItemChanged(temp)
+            notifyItemChanged(lastClicked)
+        }
     }
 }
