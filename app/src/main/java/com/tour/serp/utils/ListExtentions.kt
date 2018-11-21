@@ -16,3 +16,10 @@ fun List<Flight>.getFlightsById(ids: List<Int>): List<Flight> {
     }
     return flights
 }
+
+fun List<Flight>.containsFlight(name: String): Boolean {
+    forEach {
+        if (it.companyObject?.name?.startsWith(name, true) == true) return true
+    }
+    return false
+}

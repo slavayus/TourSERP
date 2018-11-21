@@ -9,6 +9,7 @@ import com.tour.serp.data.network.model.Hotel
 import com.tour.serp.data.network.repository.CompanyRepository
 import com.tour.serp.data.network.repository.FlightRepository
 import com.tour.serp.data.network.repository.HotelRepository
+import com.tour.serp.utils.containsFlight
 import com.tour.serp.utils.getById
 import com.tour.serp.utils.getFlightsById
 import kotlinx.coroutines.CoroutineScope
@@ -16,10 +17,12 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 
+
 class ToursViewModel : ViewModel(), ApiExceptions {
     private val viewModelJob = Job()
     private val uiScope = CoroutineScope(Dispatchers.Main + viewModelJob)
     val hotelsData = MutableLiveData<List<Hotel>>()
+    private var hotels: List<Hotel>? = null
 
     private lateinit var companyRepository: CompanyRepository
     private lateinit var flightRepository: FlightRepository
@@ -48,6 +51,7 @@ class ToursViewModel : ViewModel(), ApiExceptions {
                 val flights = flightRepository.getFlights()
                 val hotels = hotelRepository.getHotels()
                 handleResults(companies, flights, hotels)
+                this@ToursViewModel.hotels = hotels
                 hotelsData.value = hotels
             } catch (e: Exception) {
                 handleException(e)
@@ -66,5 +70,10 @@ class ToursViewModel : ViewModel(), ApiExceptions {
 
     private fun combineFlightsWithHotels(flights: List<Flight>, hotels: List<Hotel>) {
         hotels.forEach { it.flightsObject = flights.getFlightsById(it.flights).sortedBy { it.price } }
+    }
+
+    fun onTextChangedInSearchView(newText: String) {
+        val filteredHotels = hotels?.filter { it.flightsObject.containsFlight(newText) }
+        hotelsData.value = filteredHotels
     }
 }

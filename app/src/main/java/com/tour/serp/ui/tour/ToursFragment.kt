@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v7.app.AlertDialog
+import android.support.v7.widget.SearchView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -33,12 +34,24 @@ class ToursFragment : Fragment(), HotelAdapter.HotelAdapterInteraction {
 
         binding.hotelList.adapter = hotelAdapter
 
+        binding.searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(p0: String?): Boolean {
+                return true
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                newText?.let { viewModel.onTextChangedInSearchView(it) }
+                return true
+            }
+
+        })
+
         return binding.root
     }
 
     private fun initViewModel() {
         viewModel.init(CompanyRepository(), FlightRepository(), HotelRepository())
-        viewModel.hotelsData.observe(this, Observer { it?.let { hotels -> hotelAdapter.addHotels(hotels) } })
+        viewModel.hotelsData.observe(this, Observer { it?.let { hotels -> hotelAdapter.setHotels(hotels) } })
     }
 
     override fun onClickHotel(hotel: Hotel) {
@@ -61,7 +74,7 @@ class ToursFragment : Fragment(), HotelAdapter.HotelAdapterInteraction {
             .setView(
                 view.root
             )
-            .setPositiveButton(R.string.apply) { dialog, which ->
+            .setPositiveButton(R.string.apply) { _, _ ->
                 Toast.makeText(context, tourAdapter.getSelectedFlight()?.companyObject?.name, Toast.LENGTH_SHORT).show()
             }
             .create()
