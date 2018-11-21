@@ -10,15 +10,17 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.tour.serp.R
+import com.tour.serp.data.network.model.Hotel
 import com.tour.serp.data.network.repository.CompanyRepository
 import com.tour.serp.data.network.repository.FlightRepository
 import com.tour.serp.data.network.repository.HotelRepository
 import com.tour.serp.databinding.FragmentToursBinding
 
-class ToursFragment : Fragment() {
+
+class ToursFragment : Fragment(), HotelAdapter.HotelAdapterInteraction {
     private val viewModel: ToursViewModel
         get() = ViewModelProviders.of(this)[ToursViewModel::class.java]
-    private var hotelAdapter = HotelAdapter()
+    private var hotelAdapter = HotelAdapter(this)
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val binding = DataBindingUtil.inflate<FragmentToursBinding>(inflater, R.layout.fragment_tours, container, false)
@@ -33,6 +35,13 @@ class ToursFragment : Fragment() {
     private fun initViewModel() {
         viewModel.init(CompanyRepository(), FlightRepository(), HotelRepository())
         viewModel.hotelsData.observe(this, Observer { it?.let { hotels -> hotelAdapter.addHotels(hotels) } })
+        viewModel.flightsData.observe(this, Observer { it?.let { flights -> showAlertDialog(flights) } })
+    }
+
+    private fun showAlertDialog(flights: ArrayList<String>) {
+        if (context == null) {
+            return
+        }
     }
 
     companion object {
@@ -46,4 +55,9 @@ class ToursFragment : Fragment() {
         }
 
     }
+
+    override fun onClickHotel(hotel: Hotel) {
+        viewModel.onClickHotel(hotel)
+    }
+
 }

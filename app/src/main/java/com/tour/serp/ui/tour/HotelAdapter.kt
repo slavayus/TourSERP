@@ -8,8 +8,12 @@ import com.tour.serp.R
 import com.tour.serp.data.network.model.Hotel
 import com.tour.serp.databinding.FragmentToursRecyclerViewHotelBinding
 
-class HotelAdapter : RecyclerView.Adapter<HotelAdapter.HotelHolder>() {
+class HotelAdapter(val interaction: HotelAdapterInteraction) : RecyclerView.Adapter<HotelAdapter.HotelHolder>() {
     private val data = ArrayList<Hotel>()
+
+    interface HotelAdapterInteraction {
+        fun onClickHotel(hotel: Hotel)
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HotelHolder {
         val inflater = LayoutInflater.from(parent.context)
@@ -36,6 +40,7 @@ class HotelAdapter : RecyclerView.Adapter<HotelAdapter.HotelHolder>() {
         RecyclerView.ViewHolder(binding.root) {
         fun bind(hotel: Hotel) {
             binding.hotel = hotel
+            itemView.setOnClickListener { interaction.onClickHotel(hotel) }
         }
 
     }
