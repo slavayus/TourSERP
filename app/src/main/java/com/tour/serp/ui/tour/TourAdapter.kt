@@ -26,6 +26,13 @@ class TourAdapter(val data: List<Flight>) : RecyclerView.Adapter<TourAdapter.Tou
 
     override fun onBindViewHolder(holder: TourHolder, position: Int) = holder.bind(data[position])
 
+    fun getSelectedTour()=
+        if (lastClicked != -1) {
+            data[lastClicked]
+        } else {
+            null
+        }
+
     inner class TourHolder(private val binding: FragmentToursDialogRecyclerViewTourItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(flight: Flight) {
