@@ -16,9 +16,9 @@ import android.widget.Toast
 import com.tour.serp.R
 import com.tour.serp.data.network.model.Flight
 import com.tour.serp.data.network.model.Hotel
-import com.tour.serp.data.network.repository.CompanyRepository
-import com.tour.serp.data.network.repository.FlightRepository
-import com.tour.serp.data.network.repository.HotelRepository
+import com.tour.serp.data.network.repository.CompanyRepositoryImpl
+import com.tour.serp.data.network.repository.FlightRepositoryImpl
+import com.tour.serp.data.network.repository.HotelRepositoryImpl
 import com.tour.serp.databinding.FragmentToursBinding
 import com.tour.serp.databinding.FragmentToursDialogBinding
 import com.tour.serp.ui.tour.adapter.FlightAdapter
@@ -54,7 +54,7 @@ class ToursFragment : Fragment(), HotelAdapter.HotelAdapterInteraction {
     }
 
     private fun initViewModel() {
-        viewModel.init(CompanyRepository(), FlightRepository(), HotelRepository())
+        viewModel.init(CompanyRepositoryImpl(), FlightRepositoryImpl(), HotelRepositoryImpl())
         viewModel.hotelsData.observe(this, Observer { it?.let { hotels -> updateHotels(hotels) } })
     }
 
